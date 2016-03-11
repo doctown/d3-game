@@ -77,6 +77,34 @@ var update = function (data) {
 update(data);
 
 
+
+// MOVABLE CIRCLE
+// Get the circle that is updated by the mouse
+var mouse = d3.selectAll('svg');
+
+movableCircle = mouse.selectAll('.mouse').data([1]);
+movableCircle.enter()
+  .append('circle')
+  //.append('g')
+  .attr('cx', function (d) { return d * 50; })
+  .attr('cy', function (d) { return 50; })
+  .attr('r', function (d) {
+    return 10;
+  }).style('fill', 'green');
+
+svg.on('mousemove', function () {
+  var coordinates = [0, 0];
+  coordinates = d3.mouse(this);
+  var x = coordinates[0];
+  var y = coordinates[1];
+
+  movableCircle.transition()
+    .attr('cx', function (d) { return x; })
+    .attr('cy', function (d) { return y; });
+
+});
+
+
 // Update the circles every 2 seconds
 setInterval(function () {
   var newData = d3.shuffle(data);
